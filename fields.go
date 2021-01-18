@@ -37,10 +37,16 @@ func (mf *mysqlField) typeDatabaseName() string {
 	case fieldTypeGeometry:
 		return "GEOMETRY"
 	case fieldTypeInt24:
+		if mf.flags&flagUnsigned != 0 {
+			return "MEDIUMINT UNSIGNED"
+		}
 		return "MEDIUMINT"
 	case fieldTypeJSON:
 		return "JSON"
 	case fieldTypeLong:
+		if mf.flags&flagUnsigned != 0 {
+			return "INT UNSIGNED"
+		}
 		return "INT"
 	case fieldTypeLongBLOB:
 		if mf.charSet != collations[binaryCollation] {
@@ -48,6 +54,9 @@ func (mf *mysqlField) typeDatabaseName() string {
 		}
 		return "LONGBLOB"
 	case fieldTypeLongLong:
+		if mf.flags&flagUnsigned != 0 {
+			return "BIGINT UNSIGNED"
+		}
 		return "BIGINT"
 	case fieldTypeMediumBLOB:
 		if mf.charSet != collations[binaryCollation] {
@@ -63,6 +72,9 @@ func (mf *mysqlField) typeDatabaseName() string {
 	case fieldTypeSet:
 		return "SET"
 	case fieldTypeShort:
+		if mf.flags&flagUnsigned != 0 {
+			return "SMALLINT UNSIGNED"
+		}
 		return "SMALLINT"
 	case fieldTypeString:
 		if mf.charSet == collations[binaryCollation] {
@@ -74,6 +86,9 @@ func (mf *mysqlField) typeDatabaseName() string {
 	case fieldTypeTimestamp:
 		return "TIMESTAMP"
 	case fieldTypeTiny:
+		if mf.flags&flagUnsigned != 0 {
+			return "TINYINT UNSIGNED"
+		}
 		return "TINYINT"
 	case fieldTypeTinyBLOB:
 		if mf.charSet != collations[binaryCollation] {
